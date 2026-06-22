@@ -12,6 +12,7 @@ import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 
 @Controller('foods')
+// @UseGuards(AuthGuard('jwt'))
 export class FoodsController {
   constructor(private readonly foodsService: FoodsService) {}
 
@@ -20,7 +21,7 @@ export class FoodsController {
     return this.foodsService.create(createFoodDto);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.foodsService.findAll();
   }

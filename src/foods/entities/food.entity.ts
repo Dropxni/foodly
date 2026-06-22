@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from '../../categories/entities/category.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('foods')
+@Entity()
 export class Food {
   @PrimaryGeneratedColumn()
   id!: number;
@@ -8,20 +9,18 @@ export class Food {
   @Column()
   name!: string;
 
-  @Column('text')
+  @Column()
   description!: string;
 
-  @Column('decimal', {
-    precision: 10,
-    scale: 2,
-  })
+  @Column()
   price!: number;
 
   @Column()
   image!: string;
 
-  @Column({
-    default: true,
-  })
+  @Column({ default: true })
   isAvailable!: boolean;
+
+  @ManyToOne(() => Category, (category) => category.foods, { nullable: false })
+  category!: Category;
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateFoodDto {
   @IsString()
@@ -10,10 +10,16 @@ export class CreateFoodDto {
   description!: string;
 
   @IsNumber()
-  @IsNotEmpty()
   price!: number;
 
   @IsString()
   @IsNotEmpty()
   image!: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  category!: number;
+
+  @IsBoolean()
+  isAvailable!: boolean;
 }

@@ -6,19 +6,26 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { FoodsService } from './foods.service';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
+import * as cloudinaryService from '../cloudinary/cloudinary.service';
 
 @Controller('foods')
-// @UseGuards(AuthGuard('jwt'))
 export class FoodsController {
   constructor(private readonly foodsService: FoodsService) {}
 
   @Post()
-  create(@Body() createFoodDto: CreateFoodDto) {
-    return this.foodsService.create(createFoodDto);
+  @UseInterceptors(FileInterceptor('image'))
+  create(
+    @Body() createFoodDto: CreateFoodDto,
+    @UploadedFile() file: cloudinaryService.MulterFile,
+  ) {
+    return this.foodsService.create(createFoodDto, file);
   }
 
   @Get('all')
@@ -32,8 +39,13 @@ export class FoodsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFoodDto: UpdateFoodDto) {
-    return this.foodsService.update(+id, updateFoodDto);
+  @UseInterceptors(FileInterceptor('image'))
+  update(
+    @Param('id') id: string,
+    @Body() updateFoodDto: UpdateFoodDto,
+    @UploadedFile() file: cloudinaryService.MulterFile,
+  ) {
+    return this.foodsService.update(+id, updateFoodDto, file);
   }
 
   @Delete(':id')

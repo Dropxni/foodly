@@ -1,4 +1,11 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateFoodDto {
   @IsString()
@@ -9,17 +16,19 @@ export class CreateFoodDto {
   @IsNotEmpty()
   description!: string;
 
+  @Transform(({ value }) => Number(value))
   @IsNumber()
   price!: number;
 
   @IsString()
-  @IsNotEmpty()
-  image!: string;
+  @IsOptional()
+  image?: string;
 
+  @Transform(({ value }) => Number(value))
   @IsNumber()
-  @IsNotEmpty()
   category!: number;
 
+  @Transform(({ value }) => value === 'true' || value === true)
   @IsBoolean()
   isAvailable!: boolean;
 }

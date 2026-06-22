@@ -7,13 +7,13 @@ import { FoodsModule } from './foods/foods.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -28,6 +28,7 @@ import { CategoriesModule } from './categories/categories.module';
     UsersModule,
     AuthModule,
     CategoriesModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
